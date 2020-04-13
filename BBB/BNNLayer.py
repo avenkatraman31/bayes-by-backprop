@@ -12,7 +12,7 @@ class BNNLayer(nn.Module):
     softplus = lambda x: math.log(1 + math.exp(x))
 
     def __init__(self, n_input, n_output, activation, prior_mean, prior_rho):
-        assert activation in {'relu', 'softmax', 'none','sigmoid'}, 'Activation Type Not Found'
+        assert activation in {'relu', 'softmax', 'none'}, 'Activation Type Not Found'
 
         super(BNNLayer, self).__init__()
 
@@ -36,15 +36,10 @@ class BNNLayer(nn.Module):
             self.act = F.relu
         elif activation == 'softmax':
             self.act = F.softmax
-        elif activation == 'sigmoid':
-            self.act = F.sigmoid
 
         self._Var = lambda x: Variable(torch.from_numpy(x).type(torch.FloatTensor))
 
     def forward(self, X, mode):
-        # Aditya - Added on 4/11/20
-        # NOTE: MAP - Maximum A Posteriori and & MC - Monte-Carlo gradients arent implemented!!!
-        # MAP can be *approximated* with non-zero prior_rho, but second order term in the KL is neglected
         assert mode in {'forward', 'MAP', 'MC'}, 'BNNLayer Mode Not Found'
 
         _shape = (X.size()[0], self.n_output)

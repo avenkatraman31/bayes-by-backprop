@@ -21,7 +21,7 @@ Y = Var(y)
 if __name__ == '__main__':
 
     # Initialize network
-    bnn = BNN(BNNLayer(1, 100, activation='sigmoid', prior_mean=0, prior_rho=0),
+    bnn = BNN(BNNLayer(1, 100, activation='relu', prior_mean=0, prior_rho=0),
               BNNLayer(100, 1, activation='none', prior_mean=0, prior_rho=0))
 
     optim = torch.optim.Adam(bnn.parameters(), lr=1e-1)
